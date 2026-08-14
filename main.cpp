@@ -51,7 +51,7 @@ struct Header {
 static int fd = -1;
 static Header hdr;
 
-static const int CSLOTS = 128;
+static const int CSLOTS = 64;
 struct CEnt { i64 pid; int valid; char data[PAGE_SIZE]; };
 static CEnt cache[CSLOTS];
 
@@ -294,7 +294,7 @@ static void deleteKey(const Key& k) {
 }
 
 // ---------------- output buffer ----------------
-static char outbuf[1 << 20];
+static char outbuf[1 << 16];
 static int outlen = 0;
 static void outFlush() { if (outlen) { fwrite(outbuf, 1, outlen, stdout); outlen = 0; } }
 static void outRaw(const char* s, int n) {
@@ -340,7 +340,7 @@ static void findKey(const char* idx) {
 }
 
 // ---------------- fast input ----------------
-static char inbuf[1 << 16];
+static char inbuf[1 << 14];
 static int inpos = 0, inlen = 0;
 static int getCh() {
     if (inpos >= inlen) {
